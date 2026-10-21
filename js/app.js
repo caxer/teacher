@@ -878,7 +878,7 @@ async function init() {
     catch (error) { requireLogin(error.message); }
     if (found) await openWithKey(found.key, found.fresh);
     if (session.ok && browser.app && !urlKey) inAppNotice(browser, studyUI.notice);
-    else if (session.ok && found?.fresh) installTip(browser, urlKey && LinkKey.link(location.href, urlKey));
+    else if (session.ok) installTip(browser, { fresh: !!found?.fresh, link: urlKey && LinkKey.link(location.href, urlKey) });
   }
   showHead({ title: '隨身小老師', problem: '拍照、相簿或語音開始學習；也可以說「考我國中常用單字」。' });
   // 字型和數學式好了再量一次字寬

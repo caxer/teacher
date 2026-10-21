@@ -1,5 +1,5 @@
 // 首次開啟的瀏覽器指引：LINE 等 App 內建瀏覽器無法加到主畫面，先請使用者改用 Safari／瀏覽器；
-// 手機瀏覽器第一次用連結登入後，提示怎麼加到主畫面。
+// 手機瀏覽器第一次用連結登入後，提示怎麼加到主畫面（Android 支援時一鍵安裝）。
 const $ = id => document.getElementById(id);
 const IN_APP = [
   [/\bLine\//i, 'LINE'], [/Instagram/i, 'Instagram'], [/MessengerForiOS|FBAN\/Messenger|\bOrca-Android\b/i, 'Messenger'],
@@ -7,7 +7,7 @@ const IN_APP = [
   [/musical_ly|BytedanceWebview|TikTok/i, 'TikTok'],
 ];
 const EXTERNAL = 'openExternalBrowser';
-const NOTICED = 'inapp-noticed';
+const NOTICED = 'inapp-noticed', DISMISSED = 'install-dismissed';
 // 第一次回傳 true；無法記住時每次都 true。
 function markNoticed() {
   try { if (localStorage.getItem(NOTICED)) return false; localStorage.setItem(NOTICED, '1'); } catch { /* 無法記住 */ }
@@ -28,11 +28,16 @@ export function browserInfo(ua = navigator.userAgent, {
   return { ios, android, standalone: false, app };
 }
 
-/** LINE 認得 ?openExternalBrowser=1，會改用系統預設瀏覽器開啟（保留 #k=）。 */
-export function externalUrl(href) {
+/**
+ * 從內建瀏覽器改用外部瀏覽器開啟同一個網址（保留 #k=）。
+ * LINE 認得 ?openExternalBrowser=1；iPhone 其他 App 用 iOS 17 起的 x-safari-https://；
+ * Android 其他 App 用 intent:// 指定 Chrome（Android 取最後一個 # 之後當 intent 參數）。
+ */
+export function externalUrl(href, info) {
   const url = new URL(href);
-  url.searchParams.set(EXTERNAL, '1');
-  return url.href;
+  if (info.app === 'LINE') { url.searchParams.set(EXTERNAL, '1'); return url.href; }
+  if (info.ios) return 'x-safari-' + url.href;
+  return `intent://${url.host}${url.pathname}${url.search}${url.hash}#Intent;scheme=${url.protocol.slice(0, -1)};package=com.android.chrome;end`;
 }
 
 async function copy(text) {
@@ -72,15 +77,13 @@ export function guideInApp(info) {
   $('login-main').hidden = true;
   $('login-inapp').hidden = false;
   $('inapp-title').textContent = `請用 ${browser} 開啟`;
-  $('inapp-note').textContent = line ? `${name} 內無法加到主畫面。` : `${name} 內無法加到主畫面。點右上角 ⋯ 選「用${browser}開啟」。`;
-  const open = $('inapp-open'), copyLink = $('inapp-copy');
-  open.hidden = !line;
+  $('inapp-note').textContent = `${name} 內無法加到主畫面。` + (line ? '' : `沒反應時點右上角 ⋯ 改用${browser}。`);
+  const open = $('inapp-open');
   open.textContent = `用 ${browser} 開啟`;
-  open.onclick = () => { location.href = externalUrl(location.href); };
-  copyLink.className = line ? 'text-button' : 'login-primary';
-  copyButton(copyLink, location.href, `已複製，到 ${browser} 貼上網址`);
+  open.href = externalUrl(location.href, info);
+  copyButton($('inapp-copy'), location.href, `已複製，到 ${browser} 貼上網址`);
   // LINE 直接轉去外部瀏覽器；回到這一頁（已帶參數）時不再自動轉，留卡片給使用者選。
-  if (line && !new URL(location.href).searchParams.has(EXTERNAL)) location.replace(externalUrl(location.href));
+  if (line && !new URL(location.href).searchParams.has(EXTERNAL)) location.replace(externalUrl(location.href, info));
   return new Promise(resolve => {
     $('inapp-stay').onclick = () => {
       $('login-inapp').hidden = true;
@@ -97,16 +100,61 @@ export function inAppNotice(info, notice) {
   notice(`${name} 內無法加到主畫面，建議改用 ${info.ios ? 'Safari' : '瀏覽器'} 開啟專屬連結。`);
 }
 
+/* ---------- 加到主畫面 ---------- */
+
+// Android Chrome 等符合安裝條件時給 beforeinstallprompt，留著讓「安裝」按鈕叫出系統安裝視窗。
+let installPrompt = null, onPrompt = null;
+if (typeof window !== 'undefined') {
+  addEventListener('beforeinstallprompt', event => { event.preventDefault(); installPrompt = event; onPrompt?.(); });
+  addEventListener('appinstalled', () => { installPrompt = null; hideTip(); });
+}
+function hideTip() {
+  const tip = $('install-tip');
+  if (tip) tip.hidden = true;
+  onPrompt = null;
+}
+function dismissed(set) {
+  try { if (set) localStorage.setItem(DISMISSED, '1'); return !!localStorage.getItem(DISMISSED); } catch { return false; }
+}
+function androidMenu(ua) {
+  if (/SamsungBrowser/.test(ua)) return '點下方 ☰ →「新增頁面至」→「主螢幕」';
+  if (/Chrome\//.test(ua) && !/EdgA|OPR|Firefox/.test(ua)) return '點右上角 ⋮ →「加到主畫面」';
+  return '從瀏覽器選單選「加到主畫面」';
+}
+
 /**
- * 手機瀏覽器第一次用連結登入後，提示加到主畫面。
- * iPhone 主畫面與 Safari 分開儲存，從主畫面第一次開啟要貼上連結，所以附「複製連結」。
+ * 登入後提示加到主畫面。iPhone 只在第一次用連結登入時提示：主畫面與 Safari 分開儲存，
+ * 從主畫面第一次開啟要貼上連結，所以附「複製連結」。Android 共用登入，可一鍵安裝時就提示（關掉後不再出現）。
  */
-export function installTip(info, link) {
+export function installTip(info, { fresh = false, link = '', ua = navigator.userAgent } = {}) {
   if (info.standalone || info.app || (!info.ios && !info.android)) return;
-  $('install-text').textContent = info.ios ? '點分享 →「加入主畫面」' : '點右上角 ⋮ →「加到主畫面」';
-  const copyLink = $('install-copy');
-  copyLink.hidden = !info.ios || !link;
-  if (info.ios && link) copyButton(copyLink, link, '已複製');
-  $('install-close').onclick = () => { $('install-tip').hidden = true; copyLink.onclick = null; };
-  $('install-tip').hidden = false;
+  const tip = $('install-tip'), text = $('install-text'), copyLink = $('install-copy'), install = $('install-go');
+  $('install-close').onclick = () => { dismissed(true); hideTip(); };
+  if (info.ios) {
+    if (!fresh) return;
+    text.textContent = '點分享 →「加入主畫面」';
+    copyLink.hidden = !link;
+    if (link) copyButton(copyLink, link, '已複製');
+    install.hidden = true;
+    tip.hidden = false;
+    return;
+  }
+  copyLink.hidden = true;
+  const draw = () => {
+    install.hidden = !installPrompt;
+    text.textContent = installPrompt ? '加到主畫面，下次一點就開' : androidMenu(ua);
+    tip.hidden = false;
+  };
+  install.onclick = async () => {
+    const prompt = installPrompt;
+    if (!prompt) return;
+    installPrompt = null;
+    await prompt.prompt();
+    const { outcome } = await prompt.userChoice;
+    if (outcome === 'dismissed') dismissed(true);
+    hideTip();
+  };
+  if (dismissed() && !fresh) return;
+  if (installPrompt || fresh) draw();
+  onPrompt = draw; // 安裝條件晚一點才成立時，補上按鈕
 }
