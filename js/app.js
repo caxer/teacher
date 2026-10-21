@@ -16,7 +16,7 @@ import { initWishes } from './wishes.js';
 import './help.js';
 import { initSiteUpdate } from './site-update.js';
 import { initLoginScreen } from './login-screen.js';
-import { browserInfo, cleanExternalParam, guideInApp, inAppNotice, installTip } from './open-guide.js';
+import './open-guide.js';
 
 initSiteUpdate({ beforeRefresh: flushLogWrites });
 
@@ -870,15 +870,12 @@ async function init() {
   if (isLocalSession() && !loggedIn()) $('tip').textContent = '本機未設定，請執行 npm run setup。';
   if (!isLocalSession()) {
     // LINE 等內建瀏覽器帶著連結開啟：先請使用者改用瀏覽器，選「先在這裡使用」才讀金鑰。
-    const browser = browserInfo(), urlKey = LinkKey.parse(location.href);
-    if (browser.app && urlKey) await guideInApp(browser);
-    else cleanExternalParam();
+    await OpenGuide.gate();
     let found = null;
     try { found = await LinkKey.current(); }
     catch (error) { requireLogin(error.message); }
     if (found) await openWithKey(found.key, found.fresh);
-    if (session.ok && browser.app && !urlKey) inAppNotice(browser, studyUI.notice);
-    else if (session.ok) installTip(browser, { fresh: !!found?.fresh, link: urlKey && LinkKey.link(location.href, urlKey) });
+    if (session.ok) OpenGuide.afterLogin({ fresh: !!found?.fresh });
   }
   showHead({ title: '隨身小老師', problem: '拍照、相簿或語音開始學習；也可以說「考我國中常用單字」。' });
   // 字型和數學式好了再量一次字寬
