@@ -707,3 +707,7 @@ html:not([data-answer-view="true"]), html:not([data-answer-view="true"]) body { 
 .b-ask { grid-template-rows: auto minmax(0, 1fr) auto auto auto; }
 .ask-shortcuts { margin: 0; gap: 4px; }.ask-shortcuts .mini { font-size: .8rem; }
 @media (max-width: 420px) { .brand h1 { font-size: 1rem; }.brand .logo { width: 24px; }.study-dialog { padding: 14px; } }
+.install-tip { position: fixed; z-index: 11; left: 50%; bottom: calc(10px + env(safe-area-inset-bottom)); transform: translateX(-50%); width: min(500px, calc(100vw - 24px)); display: flex; align-items: center; gap: 8px; padding: 6px 6px 6px 12px; background: #182d23; color: #edf2e9; border: 1px solid #97ad9f; border-radius: 10px; font-size: .85rem; box-shadow: var(--shadow); }
+.install-tip[hidden] { display: none; }
+.install-tip span { flex: 1; min-width: 0; }
+.install-tip .btn { flex: none; min-height: 36px; padding: 4px 10px; }
