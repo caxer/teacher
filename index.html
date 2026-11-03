@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>隨身小老師</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="隨身小老師：拍學習內容解題、拍文章導讀、拍單字朗讀，Claude 在黑板上一步一步教你，還可以追問。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='5' width='28' height='20' rx='2.5' fill='%232c4b3d' stroke='%23b9bfba' stroke-width='2'/%3E%3Cpath d='M8 19l5-6 4 4 6-8' fill='none' stroke='%23ffd54a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Crect x='9' y='26' width='14' height='2.6' rx='1.3' fill='%23b9bfba'/%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#2c4b3d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="style.css?v=5f4aad550521018d">
+<link rel="stylesheet" href="login-screen.css?v=5f4aad550521018d">
+<!-- site-version:start -->
+<meta name="scan-solver-version" content="5f4aad550521018d">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Eq7gtsoh9YbAw/1sLGDhwTjU76fV0XGxGNxinOxm9EE='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self' https://api.github.com https://api.anthropic.com; object-src 'none'; base-uri 'none'; form-action 'none'">
+<script type="importmap">{"imports":{"./js/ai.js":"./js/ai.js?v=5f4aad550521018d","./js/app.js":"./js/app.js?v=5f4aad550521018d","./js/config.js":"./js/config.js?v=5f4aad550521018d","./js/data-repo.js":"./js/data-repo.js?v=5f4aad550521018d","./js/expr.js":"./js/expr.js?v=5f4aad550521018d","./js/figure.js":"./js/figure.js?v=5f4aad550521018d","./js/learning-entry.js":"./js/learning-entry.js?v=5f4aad550521018d","./js/learning.js":"./js/learning.js?v=5f4aad550521018d","./js/lesson.js":"./js/lesson.js?v=5f4aad550521018d","./js/library.js":"./js/library.js?v=5f4aad550521018d","./js/link-key.js":"./js/link-key.js?v=5f4aad550521018d","./js/log-outbox.js":"./js/log-outbox.js?v=5f4aad550521018d","./js/logbox.js":"./js/logbox.js?v=5f4aad550521018d","./js/logger.js":"./js/logger.js?v=5f4aad550521018d","./js/login-screen.js":"./js/login-screen.js?v=5f4aad550521018d","./js/open-guide.js":"./js/open-guide.js?v=5f4aad550521018d","./js/photo-editor.js":"./js/photo-editor.js?v=5f4aad550521018d","./js/photo.js":"./js/photo.js?v=5f4aad550521018d","./js/player.js":"./js/player.js?v=5f4aad550521018d","./js/prompt.js":"./js/prompt.js?v=5f4aad550521018d","./js/quiz.js":"./js/quiz.js?v=5f4aad550521018d","./js/rich.js":"./js/rich.js?v=5f4aad550521018d","./js/settings.js":"./js/settings.js?v=5f4aad550521018d","./js/site-update.js":"./js/site-update.js?v=5f4aad550521018d","./js/speech.js":"./js/speech.js?v=5f4aad550521018d","./js/study-ui.js":"./js/study-ui.js?v=5f4aad550521018d","./js/study.js":"./js/study.js?v=5f4aad550521018d","./js/timing.js":"./js/timing.js?v=5f4aad550521018d","./js/vendor/anthropic-sdk.js":"./js/vendor/anthropic-sdk.js?v=5f4aad550521018d","./js/vendor/mathjax-tex-svg-full.js":"./js/vendor/mathjax-tex-svg-full.js?v=5f4aad550521018d","./js/voice-settings.js":"./js/voice-settings.js?v=5f4aad550521018d"}}</script>
+<!-- site-version:end -->
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z" fill="currentColor"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M6 5h2.4v14H6zM19 5.5v13L9.5 12z" fill="currentColor"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M15.6 5H18v14h-2.4zM5 5.5v13l9.5-6.5z" fill="currentColor"/></symbol>
+  <symbol id="i-photo" viewBox="0 0 24 24"><path d="M4 7.5h3.2L9 5h6l1.8 2.5H20v11H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12.6" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-album" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8" cy="8" r="1.5" fill="currentColor"/><path d="m3 17 5-5 4 4 4-6 5 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-speed" viewBox="0 0 24 24"><path d="M4.5 17a8 8 0 1 1 15 0" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="m12 14.5 4-4.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="12" cy="14.5" r="1.7" fill="currentColor"/></symbol><symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6.5C10 5 7 4.5 4 5v13c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V5c-3-.5-6 0-8 1.5zm0 0v13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></symbol><symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol><symbol id="i-mute" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="m16 9.5 5 5m0-5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" rx="1.5" fill="currentColor"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.5h16v10H10l-4.5 3.5V15.5H4z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M8.5 9.5h7M8.5 12h4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3.5" width="6" height="11" rx="3" fill="currentColor"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12 20 4.5 15.5 20l-3.2-6.3z" fill="currentColor"/></symbol>
+  <symbol id="i-redo" viewBox="0 0 24 24"><path d="M5 12a7 7 0 1 0 2.05-4.95M5 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<div id="login" class="auth-screen" hidden>
+  <div class="login-page">
+    <div class="login-brand"><span class="brand-mark"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v14H4z M4 9h16 M8 13h3 M8 16h7"/></svg></span>隨身小老師</div>
+    <div class="login-intro"><h1>每一次學習，<br>慢慢理解。</h1></div>
+    <section class="login-card" aria-label="登入隨身小老師">
+      <span class="login-lock"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71 M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>
+      <h2 id="login-title">用專屬連結開啟</h2>
+      <p class="muted" id="login-hint" hidden>請執行 npm run setup。</p>
+      <button type="button" class="login-primary" id="login-paste" data-login-paste title="點過一次專屬連結，這台裝置就會記住。主畫面 App 第一次請先複製連結再按這裡。連結就是鑰匙，請勿轉傳。使用時會記錄手機型號、學習內容和老師回覆，只有管理員看得到；不收集位置。"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71 M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span data-login-paste-label>貼上專屬連結</span></button>
+      <p id="login-error" class="login-error" role="alert" data-login-error hidden></p>
+    </section>
+    <div id="login-local-tools" class="login-local-tools" hidden></div>
+  </div>
+</div>
+
+<div class="app" id="app" data-view="phone" hidden>
+  <header class="top">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="5" width="28" height="20" rx="2.5" class="logo-board"/><path d="M8 19l5-6 4 4 6-8" class="logo-chalk"/><rect x="9" y="26" width="14" height="2.6" rx="1.3" class="logo-tray"/></svg>
+      <h1>隨身小老師</h1>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="desk" aria-labelledby="desk-title">
+      <div class="desk-content" id="desk-content">
+      <h2 class="sr-only" id="desk-title">拍學習內容</h2>
+      <section class="shoot-panel" id="shoot-panel">
+        <div class="photo-actions">
+          <button class="btn primary big" type="button" id="shoot"><svg class="ic" aria-hidden="true"><use href="#i-photo"/></svg>拍照</button>
+          <button class="btn big" type="button" id="album"><svg class="ic" aria-hidden="true"><use href="#i-album"/></svg>相簿</button>
+          <button class="btn big" type="button" id="voice-entry"><svg class="ic" aria-hidden="true"><use href="#i-mic"/></svg>語音</button>
+          <button class="btn big" type="button" id="open-library" aria-haspopup="dialog" title="重播講過的內容、收藏與錯題"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg>複習</button>
+          
+        </div>
+        <p class="tip" id="tip">拍照、選相簿或直接說題目；也可以指定範圍做測驗。</p>
+      </section>
+
+      <input type="file" id="file" accept="image/*" capture="environment" hidden>
+      <input type="file" id="file-pick" accept="image/*" hidden>
+      </div>
+    </section>
+    <section class="stage" aria-labelledby="b-title">
+      <div class="board" id="board">
+        <div class="board-content" id="board-content">
+        <header class="board-head">
+          <span class="chip" id="b-subject"></span>
+          <h2 id="b-title">隨身小老師</h2>
+          <span class="chip tag" id="b-tag"></span>
+          <div class="head-right">
+            <div class="b-status" id="b-status" hidden>
+              <span class="chalk-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span id="b-status-text">Claude 正在看學習內容</span>
+              <button type="button" class="mini" id="b-stop"><svg class="ic"><use href="#i-stop"/></svg>停止</button>
+            </div>
+            <button type="button" class="board-photo" id="b-photo" hidden aria-label="看拍到的照片"><img id="b-photo-img" alt=""></button>
+          </div>
+        </header>
+        <p class="board-ai" id="board-ai" hidden></p>
+        <div class="problem" id="b-problem"></div>
+        <div class="board-work">
+        <ol class="answer-steps" id="b-answer-steps" aria-label="完整教學內容" hidden></ol>
+        <div class="board-body" id="b-body" data-layout="split">
+          <div class="fig-wrap"><svg class="fig" id="b-fig" aria-hidden="true"></svg></div>
+          <div class="notes" id="b-notes"></div>
+        </div>
+        <div class="board-foot">
+          <p class="caption" id="b-caption" aria-live="polite" hidden></p>
+          <div class="answer" id="b-answer" hidden>
+            <span class="answer-label" id="b-answer-label">答案</span>
+            <span class="answer-text" id="b-answer-text"></span>
+            <span class="answer-actions">
+              <button type="button" class="btn chalk play" id="b-again"><svg class="ic"><use href="#i-play"/></svg><span id="b-again-text">再看一次</span></button>
+              <button type="button" class="btn chalk ghost" id="b-other" hidden>解這張的別題</button>
+              <button type="button" class="btn chalk ghost" id="b-resolve" hidden><svg class="ic"><use href="#i-redo"/></svg>重新講解</button>
+            </span>
+          </div>
+        </div>
+        <div class="b-error" id="b-error" hidden>
+          <p class="b-error-title" id="b-error-title">看不清楚內容</p>
+          <p class="b-error-text" id="b-error-text"></p>
+          <div class="b-error-actions">
+            <button type="button" class="btn chalk" id="b-retry"><svg class="ic"><use href="#i-redo"/></svg>重新講解</button>
+          </div>
+        </div>
+        <div class="b-pick" id="b-pick" hidden>
+          <div class="b-pick-head">
+            <img id="b-pick-img" alt="手機拍的照片">
+            <div class="b-pick-text">
+              <p class="b-pick-title" id="b-pick-title">照片裡有這些內容，想學哪一項？</p>
+            </div>
+            <button type="button" class="mini" id="b-pick-close">關閉</button>
+          </div>
+          <ol class="b-pick-list" id="b-pick-list"></ol>
+          <nav class="pick-pages" id="pick-pages" aria-label="學習內容分頁" hidden>
+            <button type="button" class="mini" id="pick-prev">上一頁</button>
+            <span id="pick-page" aria-live="polite"></span>
+            <button type="button" class="mini" id="pick-next">下一頁</button>
+          </nav>
+        </div>
+        <div class="b-ask" id="b-ask" hidden>
+          <div class="b-ask-head">
+            <p class="b-ask-title" id="b-ask-title">追問這一題</p>
+            <button type="button" class="mini" id="b-ask-close">回到講解</button>
+          </div>
+          <ol class="b-ask-list" id="b-ask-list" aria-live="polite"></ol>
+          <form class="b-ask-form" id="b-ask-form">
+            <button type="button" class="ask-mic" id="ask-mic" aria-label="用說的" aria-pressed="false" hidden><svg class="ic" aria-hidden="true"><use href="#i-mic"/></svg></button>
+            <input type="text" id="ask-input" placeholder="想問什麼？例如：為什麼要除以 2？" autocomplete="off" enterkeyhint="send" aria-label="追問的問題">
+            <button type="submit" class="ask-send" id="ask-send" aria-label="送出"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg></button>
+          </form>
+          <div class="ask-shortcuts"><button type="button" class="mini" data-ask="這一步為什麼要這樣做？">這一步為什麼？</button><button type="button" class="mini" data-ask="請換個更簡單的方式解釋這一步。">換個方式說</button><button type="button" class="mini" data-ask="我算的是：">我算的是…</button></div>
+          <p class="b-ask-hint" id="ask-hint" role="status"></p>
+        </div>
+        <div class="photo-view" id="photo-view" hidden><img id="photo-view-img" alt="拍到的照片"><button type="button" class="mini" id="photo-close">關閉</button></div>
+        </div>
+        </div>
+      </div>
+      <div class="lesson-status"><div class="dots" id="t-dots" aria-label="步驟"></div><span class="step-count" id="t-count"></span>
+        <p class="voice-feedback" id="voice-feedback" role="status" hidden></p>
+      </div>
+      <div class="floating-controls" role="toolbar" aria-label="播放控制">
+        <div class="playback-controls" role="group" aria-label="步驟播放">
+        <button type="button" class="round-control" id="t-prev" aria-label="上一步" title="上一步（←）"><svg class="ic" aria-hidden="true"><use href="#i-prev"/></svg><span>上步</span></button>
+        <button type="button" class="round-control" id="t-play" aria-label="播放" title="播放／暫停（P）"><svg class="ic" aria-hidden="true"><use href="#i-play" id="t-play-icon"/></svg><span id="t-play-label">播放</span></button>
+        <button type="button" class="round-control" id="t-next" aria-label="下一步" title="下一步（→）"><svg class="ic" aria-hidden="true"><use href="#i-next"/></svg><span>下步</span></button>
+        </div>
+        <div class="learning-controls" role="group" aria-label="學習操作">
+        <button type="button" class="round-control" id="t-answer" aria-label="列出完整教學內容與答案，跳過動畫與朗讀" title="列出完整教學內容與答案，跳過動畫與朗讀"><span class="answer-icon" aria-hidden="true">✓</span><span>重點</span></button>
+        <button type="button" class="round-control" id="t-questions" aria-label="回到內容選擇" title="回到內容選擇" hidden><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><span>選內容</span></button>
+        <button type="button" class="round-control" id="t-ask" aria-label="追問這一題" title="追問這一題" disabled><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span>追問</span></button>
+        <button type="button" class="round-control" id="open-tools" aria-label="學習工具：收藏、標記、提示、出題" aria-haspopup="dialog" title="學習工具" hidden><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5zM8 9h8M8 13h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>工具</span></button>
+        <button type="button" class="round-control" id="t-voice" aria-pressed="true" aria-label="語音旁白" title="語音旁白"><svg class="ic" aria-hidden="true"><use href="#i-sound" id="t-voice-icon"/></svg><span>聲音</span></button>
+        <button type="button" class="round-control" id="t-speed" aria-label="講解速度 1×，點一下切換" title="講解速度：0.5～1.5 倍，點一下切換"><svg class="ic" aria-hidden="true"><use href="#i-speed"/></svg><span id="t-speed-value" aria-hidden="true">1×</span></button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<script type="module" src="js/app.js?v=5f4aad550521018d"></script>
+</body>
+</html>

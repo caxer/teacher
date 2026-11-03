@@ -1,0 +1,22 @@
+{
+  "v": 3,
+  "user": {
+    "slots": [
+      {
+        "id": "D1proxTa",
+        "iv": "sBrttSomhS2AyNRp",
+        "ct": "wCFGtSkY_6rQsJmXv0ysc3Pe3-cnQpJfTzAE696aLZHwyVt3N7VHdPBNCYkSBummwbNmsD7OOVpHhgX-s7MKmau2ww_X7vikZysdZUvLwmKLjkTTt8pX10Jne6DVCBBmBf8IYrXwCViiSNDbDpa6fiErrna4TsQilP3II8ekOLIZ1TYKBbZ0-QQWE1hKhy-eNP7TGeml4MARIVW5Cih8R0WPs4SnEpT4Kc1mI7BEeDxUKXv2vTjkmqdfzRpuqAVGKKdBDr3tO6mbdG1LXtrXPUjekndcwyLU6HFPvRxgToZ2sU7Poj4ytxa6lJAH3ONs0mzNxeE8YTbXwrn8cdL2mAZEmQ50ihEMX-wb4xpmKNQsPT5f3dY"
+      }
+    ]
+  },
+  "adminPublicKey": {
+    "kty": "RSA",
+    "n": "ncZ8YsHiMbx3Gi2us32BkPAjGvsVMcI4jfWANW6_bZRrZRE--wWYylklBqhNC3IxJLqE41qV9MdHbMrC9Iw0iaBqkt0ihssMpQvtJMD_vomBw2aLP3lGAkmteTHQZtGNo-2l-MSOVmp6j4sgbInJ6Td-V2kwUoE6FdE4-bMOP8r6PSrUtXb9nPYhUKKqEo_eVPyXX9DnARsTbPHvLeR6ddJQKv29pl7s9-ciw0SLOsVEpETiFa82rAho2ZhkrJAgZuNcWJ3tobq7lyp--sgaLDeSBCGBjwVwouyIS4B_WdJ6tQ5PHwdr8dW5y8A_tjJrmnJUs_NGeaZrwgoJuirtu5OQCXv40p4eOHKZRWd8jDsRs-L-FIxMEZJfVkDMgqfPkhGUa4-5VB2NaQltXnh3ePEefXjBDWbEnv25IOlUVzlFQkSH6bo5CS7PdqttDV62P9mXceAha7O7hRSMnWOcJysRa0pJmTFxIQe2DnfEn12Hn--j3SrHPs5qaAwRZmqd",
+    "e": "AQAB",
+    "alg": "RSA-OAEP-256",
+    "ext": true,
+    "key_ops": [
+      "encrypt"
+    ]
+  }
+}
