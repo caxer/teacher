@@ -163,12 +163,13 @@ export async function solve({ image, text, note, kind, model, signal, onText, on
   return { text: r.text, truncated: r.stopReason === 'max_tokens', model: r.model, usage: r.usage };
 }
 
-export async function studyTask({ task, context, model, profile, signal }) {
+export async function studyTask({ task, context, images = [], model, profile, signal }) {
   const info = modelInfo(model);
+  const photos = await Promise.all(images.map(async blob => ({ type: 'image', source: { type: 'base64', media_type: blob.type || 'image/jpeg', data: await blobToBase64(blob) } })));
   const r = await run(info, {
-    model: info.model, max_tokens: 6000, output_config: { effort: EFFORT },
+    model: info.model, max_tokens: photos.length ? 16000 : 6000, output_config: { effort: EFFORT },
     system: [{ type: 'text', text: `${STUDY_INSTRUCTIONS[task]}\n${profileText(profile)}`, cache_control: { type: 'ephemeral' } }],
-    messages: [{ role: 'user', content: JSON.stringify(context) }],
+    messages: [{ role: 'user', content: photos.length ? [...photos, { type: 'text', text: JSON.stringify(context) }] : JSON.stringify(context) }],
   }, { signal, refused: 'Claude 沒有回答，請調整題目後再試。' });
   if (r.stopReason === 'max_tokens') throw Object.assign(new Error('回覆被截斷，請再試一次。'), { usage: r.usage, model: r.model });
   try { return { ...r, value: parseStudy(task, scanPartial(r.text).value, context) }; }

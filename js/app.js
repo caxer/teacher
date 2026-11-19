@@ -12,6 +12,7 @@ import { studyProfile, initStudyUI } from './study-ui.js';
 import { currentSettings, refreshSettings } from './settings.js';
 import { CONTENT_KINDS, contentKind } from './learning.js';
 import { initLearningEntry } from './learning-entry.js';
+import { initWorksheet } from './worksheet-ui.js';
 import { initSiteUpdate } from './site-update.js';
 import { initLoginScreen } from './login-screen.js';
 import './open-guide.js';
@@ -840,7 +841,7 @@ const studyUI = initStudyUI({
     await player.showAll(); showAnswer('播放講解');
   },
 });
-const learningEntry = initLearningEntry({
+const entryBridge = {
   ready: () => { if (session.ok) return true; requireLogin(); return false; },
   login: requireLogin, model: () => choice, modelId: id => modelInfo(id).model,
   pause: () => {
@@ -848,9 +849,13 @@ const learningEntry = initLearningEntry({
     const interrupted = Boolean(job); job?.ac.abort(); job = null;
     setStatus(''); player.pause(); if (interrupted) player.finish();
   },
+};
+const learningEntry = initLearningEntry({
+  ...entryBridge,
   teach: text => startSolve({ text, note: '語音／文字', kind: 'auto' }),
   restore: record => studyUI.restore(record),
 });
+initWorksheet(entryBridge);
 // 提示模式關閉對話窗後，仍不能透過播放器提前揭露解答。
 for (const id of ['t-play', 't-prev', 't-next', 't-answer', 'b-again', 't-ask']) $(id).addEventListener('click', e => {
   if (!hiddenLesson) return;
